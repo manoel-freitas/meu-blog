@@ -4,6 +4,13 @@
     style="margin-top: 40px; margin-bottom: 40px;"
   >
     <blog-post-content :post="post" />
+    <div class="comments">
+      <vue-disqus
+        shortname="devcelestino"
+        identifier="slug_post_page"
+        :url="$route.query.page"
+      ></vue-disqus>
+    </div>
   </main>
 </template>
 
@@ -40,6 +47,7 @@ export default {
       content: app.$prismic.asHtml(document.data.post_content)
     })
   },
+
   destroyed() {
     this.selectPost({})
   },

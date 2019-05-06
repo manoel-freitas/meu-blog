@@ -46,17 +46,15 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['~/plugins/disqus'],
 
   /*
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
     // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
     '@nuxtjs/bulma',
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
     '@nuxtjs/style-resources',
     [
       'prismic-nuxt',
@@ -68,12 +66,6 @@ export default {
       }
     ]
   ],
-  /*
-   ** Axios module configuration
-   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-  },
 
   /*
    ** Build configuration
@@ -99,9 +91,9 @@ export default {
           exclude: /(node_modules)/
         })
       }
-    },
-    styleResources: {
-      scss: ['./assets/_global.scss']
     }
+  },
+  styleResources: {
+    scss: ['./assets/_global.scss']
   }
 }

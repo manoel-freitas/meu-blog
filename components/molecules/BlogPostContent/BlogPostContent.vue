@@ -10,7 +10,11 @@
       <small>{{ actualPost.timeToRead }} min de leitura</small>
     </strong>
     <br />
-    <p class="content" v-html="actualPost.text"></p>
+    <div
+      class="content has-text-justified"
+      :class="readMode"
+      v-html="actualPost.text"
+    ></div>
   </div>
 </template>
 
@@ -52,10 +56,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.night.content {
-  h1 {
-    color: white;
+<style lang="scss">
+.content.night {
+  h1,
+  strong {
+    color: white !important;
+  }
+  p strong {
+    color: white !important;
   }
 }
 </style>
