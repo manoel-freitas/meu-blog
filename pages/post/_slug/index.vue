@@ -4,6 +4,8 @@
     style="margin-top: 40px; margin-bottom: 40px;"
   >
     <blog-post-content :post="post" />
+    <AddThis public-id="ra-5cd0a0fad4f9110a" />
+
     <div class="comments">
       <vue-disqus
         shortname="devcelestino"
@@ -17,9 +19,11 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import BlogPostContent from '~/components/molecules/BlogPostContent'
+import AddThis from 'vue-simple-addthis-share'
 export default {
   components: {
-    BlogPostContent
+    BlogPostContent,
+    AddThis
   },
   computed: {
     ...mapState({
