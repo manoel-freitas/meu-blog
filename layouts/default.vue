@@ -1,29 +1,56 @@
 <template>
-  <div class="has-has-background-grey-light">
-    <the-navbar />
-    <nuxt />
-    <footer class="footer is-fixed-bottom">
-      <div class="content has-text-centered">
-        <p>
-          <strong>Bulma</strong> by
-          <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is
-          licensed
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The
-          website content is licensed
-          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-            >CC BY NC SA 4.0</a
-          >.
-        </p>
-      </div>
-    </footer>
+  <div :class="readMode" style="height: 100vh;">
+    <section class="main-site">
+      <blog-header @night-mode="changeReadMode($event)" />
+      <nuxt />
+    </section>
   </div>
 </template>
 
 <script>
-import TheNavbar from '~/components/organisms/TheNavbar'
+import BlogHeader from '~/components/organisms/BlogHeader'
+import { mapState, mapMutations } from 'vuex'
 export default {
   components: {
-    TheNavbar
+    BlogHeader
+  },
+  data() {
+    return {
+      preload: true
+    }
+  },
+  computed: {
+    ...mapState(['readMode'])
+  },
+
+  mounted() {
+    this.preload = false
+    this.setReadMode(this.preload)
+  },
+  methods: {
+    ...mapMutations(['setReadMode']),
+    changeReadMode(nightMode) {
+      this.setReadMode(nightMode)
+    }
   }
 }
 </script>
+
+<style lang="scss">
+.main-site {
+  max-width: 42rem;
+  padding: 2.625rem 1.3125rem;
+  margin: 0 auto;
+}
+.night {
+  transition: color 0.2s ease-out, background 0.2s ease-out;
+  background-color: #363636;
+  color: white;
+}
+
+.day {
+  transition: color 0.2s ease-out, background 0.2s ease-out;
+  background-color: white;
+  color: #363636;
+}
+</style>

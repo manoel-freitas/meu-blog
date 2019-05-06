@@ -1,40 +1,36 @@
 <template>
   <main
     class="container main-site"
+    :class="readMode"
     style="margin-top: 40px; margin-bottom: 40px;"
   >
-    <section class="hero">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">Dev Celestino</h1>
-          <article class="media">
-            <figure class="media-left">
-              <p class="image is-96x96">
-                <img
-                  class="is-rounded"
-                  src="https://pt.gravatar.com/userimage/114364901/5ea51dd87aa6c100bec2b126515430d4.png"
-                />
-              </p>
-            </figure>
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong>
-                    Blog pessoal do
-                    <a href="https://twitter.com/manoel_jfneto" class="is-link"
-                      >Manoel Freitas</a
-                    >
-                  </strong>
-                  <br />
-                  <small>@manoel_jfneto</small>
-                  <br />
-                  <small>Minhas experiências pessoais podem te ajudar</small>
-                </p>
-              </div>
-            </div>
-          </article>
+    <section id="my-info">
+      <article class="media">
+        <figure class="media-left">
+          <p class="image is-96x96">
+            <img
+              class="is-rounded"
+              src="https://pt.gravatar.com/userimage/114364901/5ea51dd87aa6c100bec2b126515430d4.png"
+            />
+          </p>
+        </figure>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong>
+                Blog pessoal do
+                <a href="https://twitter.com/manoel_jfneto" class="is-link"
+                  >Manoel Freitas</a
+                >
+              </strong>
+              <br />
+              <small>@manoel_jfneto</small>
+              <br />
+              <small>Minhas experiências pessoais podem te ajudar</small>
+            </p>
+          </div>
         </div>
-      </div>
+      </article>
     </section>
     <section id="articles" style="padding-left: 16px; padding-right: 16px">
       <article
@@ -45,7 +41,7 @@
       >
         <div class="media-content">
           <div class="content">
-            <h1 class="has-text-centered">{{ post.title }}</h1>
+            <h1>{{ post.title }}</h1>
             <figure class="image is-2by1">
               <img :src="post.image.url" :alt="post.image.alt" />
             </figure>
@@ -68,8 +64,12 @@
 
 <script>
 import truncate from 'lodash/truncate'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
+
 export default {
+  computed: {
+    ...mapState(['readMode'])
+  },
   async asyncData({ app, error }) {
     const document = await app.$prismic.api.query(
       app.$prismic.predicates.at('document.type', 'blog-')
@@ -79,9 +79,9 @@ export default {
         return {
           meta: {
             id: result.id,
+            uid: result.uid,
             lang: result.lang,
             publicationDate: app.$prismic.asDate(result.first_publication_date),
-            slug: result.slugs[0],
             tags: result.tags
           },
           image: {
@@ -98,19 +98,26 @@ export default {
       })
     }
   },
+
   methods: {
     ...mapMutations(['selectPost']),
     choosePost(post) {
       this.selectPost(post)
-      this.$router.push(`/post/${post.meta.slug}`)
+      this.$router.push(`/post/${post.meta.uid}`)
     }
   }
 }
 </script>
 
-<style scoped>
-.main-site {
-  max-width: 700px;
-  margin: 0 auto;
+<style lang="scss" scoped>
+.night {
+  .title,
+  strong,
+  .content {
+    color: white;
+    h1 {
+      color: white;
+    }
+  }
 }
 </style>

@@ -57,6 +57,7 @@ export default {
     // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
     '@nuxtjs/bulma',
     '@nuxtjs/pwa',
+    '@nuxtjs/style-resources',
     [
       'prismic-nuxt',
       {
@@ -98,6 +99,9 @@ export default {
           exclude: /(node_modules)/
         })
       }
+    },
+    styleResources: {
+      scss: ['./assets/_global.scss']
     }
   }
 }
