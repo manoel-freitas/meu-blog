@@ -3,25 +3,17 @@
     class="container main-site"
     style="margin-top: 40px; margin-bottom: 40px;"
   >
-    <div class="hero">
-      <div class="hero-body" :class="readMode">
-        <h1 class="title" :class="readMode">{{ post.title }}</h1>
-        <figure class="image is-2by1">
-          <img :src="post.image.url" :alt="post.image.alt" />
-        </figure>
-        <small>{{ post.meta.publicationDate }} -</small>
-        <small>5 min de leitura</small>
-      </div>
-    </div>
-    <div class="content" :class="readMode">
-      <div v-html="post.content"></div>
-    </div>
+    <blog-post-content :post="post" />
   </main>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import BlogPostContent from '~/components/molecules/BlogPostContent'
 export default {
+  components: {
+    BlogPostContent
+  },
   computed: {
     ...mapState({
       post: 'selectedPost',

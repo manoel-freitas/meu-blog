@@ -1,38 +1,11 @@
 <template>
   <main
     class="container main-site"
+    style="margin-top: 40px; margin-bottom: 50px;"
     :class="readMode"
-    style="margin-top: 40px; margin-bottom: 40px;"
   >
-    <section id="my-info">
-      <article class="media">
-        <figure class="media-left">
-          <p class="image is-96x96">
-            <img
-              class="is-rounded"
-              src="https://pt.gravatar.com/userimage/114364901/5ea51dd87aa6c100bec2b126515430d4.png"
-            />
-          </p>
-        </figure>
-        <div class="media-content">
-          <div class="content">
-            <p>
-              <strong>
-                Blog pessoal do
-                <a href="https://twitter.com/manoel_jfneto" class="is-link"
-                  >Manoel Freitas</a
-                >
-              </strong>
-              <br />
-              <small>@manoel_jfneto</small>
-              <br />
-              <small>Minhas experiências pessoais podem te ajudar</small>
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section id="articles" style="padding-left: 16px; padding-right: 16px">
+    <blog-bio />
+    <section id="articles">
       <article
         v-for="post in posts"
         :key="post.id"
@@ -40,22 +13,13 @@
         style="margin-top: 30px"
       >
         <div class="media-content">
-          <div class="content">
-            <h1>{{ post.title }}</h1>
-            <figure class="image is-2by1">
-              <img :src="post.image.url" :alt="post.image.alt" />
-            </figure>
-            <small>{{ post.meta.publicationDate }} -</small>
-            <small>5 min de leitura</small>
-            <br />
-            <p>{{ post.summary }}</p>
-            <button
-              class="button is-large is-info is-outlined"
-              @click="choosePost(post)"
-            >
-              Continuar Lendo
-            </button>
-          </div>
+          <blog-post-content :post="post" :is-summary="true" />
+          <button
+            class="button is-large is-info is-outlined"
+            @click="choosePost(post)"
+          >
+            Continuar Lendo
+          </button>
         </div>
       </article>
     </section>
@@ -63,10 +27,15 @@
 </template>
 
 <script>
-import truncate from 'lodash/truncate'
 import { mapMutations, mapState } from 'vuex'
+import BlogBio from '~/components/molecules/BlogBio'
+import BlogPostContent from '~/components/molecules/BlogPostContent'
 
 export default {
+  components: {
+    BlogBio,
+    BlogPostContent
+  },
   computed: {
     ...mapState(['readMode'])
   },
@@ -89,11 +58,7 @@ export default {
             alt: result.data.post_image.alt
           },
           title: app.$prismic.asText(result.data.post_title),
-          summary: truncate(app.$prismic.asText(result.data.post_content), {
-            length: 200,
-            omission: ' [...]'
-          }),
-          content: app.$prismic.asHtml(result.data.post_content)
+          content: app.$prismic.asText(result.data.post_content)
         }
       })
     }

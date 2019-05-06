@@ -1,5 +1,5 @@
 <template>
-  <div :class="readMode" style="height: 100vh;">
+  <div :class="readMode" style="height: 100%;">
     <section class="main-site">
       <blog-header @night-mode="changeReadMode($event)" />
       <nuxt />
